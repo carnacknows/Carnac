@@ -1,4 +1,11 @@
 import streamlit as st
+import random
+from datetime import datetime
+
+import requests
+import feedparser
+from dateutil import parser as dateparser
+import math
 
 st.set_page_config(
     page_title="Carnac (MVP)",
@@ -7,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("🔮 Carnac (MVP)")
-st.caption("Safe-mode boot. Carnac rebuilding…")
+st.caption("Carnac is rebuilding the signal cortex…")
 
 # ===============================
 # SIMPLE STABLE CORE (NO TRY BLOCK)
