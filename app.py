@@ -1,11 +1,15 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Carnac Debug",
-    page_icon="🔮",
-    layout="centered"
-)
+st.set_page_config(page_title="Carnac (MVP)", page_icon="🔮", layout="centered")
+st.title("🔮 Carnac (MVP)")
+st.caption("Safe-mode boot: showing errors on-screen so nothing goes blank.")
 
-st.title("Carnac Debug")
-st.write("If you can see this message, Streamlit is successfully running app.py.")
-st.write("Carnac is alive at the platform level.")
+try:
+    # --- PASTE THE REST OF CARNAC BELOW THIS LINE ---
+    st.write("✅ Carnac core loading…")
+
+    # (We’ll paste the full Carnac code here next, inside this try block.)
+
+except Exception as e:
+    st.error("Carnac hit an error while rendering.")
+    st.exception(e)
