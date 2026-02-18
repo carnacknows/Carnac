@@ -551,8 +551,8 @@ if bulletin:
 else:
     st.subheader("Carnac Reading")
 
-st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
-st.markdown(f"**Lean:** {lean}")
+    st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
+    st.markdown(f"**Lean:** {lean}")
 
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("P10", f"{res.p10:.0%}")
