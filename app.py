@@ -553,6 +553,20 @@ if q:
             seed=(int(seed) if seed != 0 else None)
         )
     lean = get_lean(res.p50)
+bulletin = is_bulletin(res.p50, res.confidence, density)
+
+from datetime import datetime
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+if bulletin:
+    st.subheader("Carnac Bulletin")
+    st.caption(f"Issued: {timestamp}")
+else:
+    st.subheader("Carnac Reading")
+
+st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
+st.markdown(f"**Lean:** {lean}")
+    lean = get_lean(res.p50)
     st.subheader("Carnac’s Call")
     st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
 
