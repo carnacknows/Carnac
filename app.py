@@ -15,7 +15,48 @@ st.set_page_config(
 
 st.title("🔮 Carnac (MVP)")
 st.caption("Carnac is rebuilding the signal cortex…")
+def fetch_rss_items(url: str, limit: int = 8):
+    try:
+        feed = feedparser.parse(url)
+        items = []
+        for e in feed.entries[:limit]:
+            items.append({
+                "title": getattr(e, "title", ""),
+                "link": getattr(e, "link", ""),
+                "published": getattr(e, "published", "") or getattr(e, "updated", "")
+            })
+        return items
+    except Exception:
+        return []
 
+def recency_score(items, horizon_days: float = 14.0) -> float:
+    if not items:
+        return 0.0
+
+    now = datetime.now()
+    half_life_days = max(1.0, min(14.0, horizon_days / 2.0))
+
+    scores = []
+    for it in items:
+        pub = it.get("published", "") or ""
+        try:
+            dt = dateparser.parse(pub, fuzzy=True, default=now)
+        except Exception:
+            dt = now
+
+        age_days = max(0.0, (now - dt).total_seconds() / 86400.0)
+        w = math.exp(-math.log(2) * (age_days / half_life_days))
+        scores.append(w)
+
+    return min(1.0, sum(scores) / max(1, len(scores)))
+
+def density_label(n_news: int, n_reddit: int) -> str:
+    total = n_news + n_reddit
+    if total >= 12:
+        return "High"
+    if total >= 4:
+        return "Medium"
+    return "Low"
 # ===============================
 # SIMPLE STABLE CORE (NO TRY BLOCK)
 # ===============================
