@@ -58,7 +58,13 @@ def density_label(n_news: int, n_reddit: int) -> str:
         return "Medium"
     return "Low"
 
+    return "Low"
 
+
+q = st.text_input("Ask Carnac:", placeholder="e.g., Will I need a raincoat in Chicago next week?")
+
+show_sources = st.checkbox("Show sources", value=True)
+use_live_signals = st.checkbox("Use live signals (RSS)", value=True)
 q = st.text_input("Ask Carnac:", placeholder="e.g., Will I need a raincoat in Chicago next week?")
 
 show_sources = st.checkbox("Show sources", value=True)
