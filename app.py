@@ -117,7 +117,7 @@ def carnac_reveal(p50: float) -> str:
 # UI
 # ===============================
 
-q = st.text_input("Ask Carnac:", placeholder="Will it rain next week?")
+
 
 # ⬇️ NEW BLOCK STARTS HERE
 from datetime import datetime
