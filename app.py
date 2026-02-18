@@ -6,6 +6,6 @@ st.set_page_config(
     layout="centered"
 )
 
-st.title("🔮 Carnac Debug")
+st.title("Carnac Debug")
 st.write("If you can see this message, Streamlit is successfully running app.py.")
-st.write("Carnac is alive at the platform 
+st.write("Carnac is alive at the platform level.")
