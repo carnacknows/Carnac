@@ -405,7 +405,30 @@ def signal_density_label(n_news: int, n_reddit: int, news_rec: float, reddit_rec
 # ----------------------------
 
 def carnac_reveal(domain: str, p50: float, conf: str, density: str) -> str:
-    flavor = {
+    # Elemental / signal metaphors chosen deterministically from probability tier
+    if p50 < 0.15:
+        line1 = "Carnac registers strong opposing currents."
+        line2 = "The outcome appears very unlikely."
+    elif p50 < 0.30:
+        line1 = "Carnac senses opposing currents."
+        line2 = "The outcome appears unlikely."
+    elif p50 < 0.45:
+        line1 = "Carnac detects mild headwinds."
+        line2 = "The balance tilts against the outcome."
+    elif p50 < 0.55:
+        line1 = "Carnac reads a balanced atmosphere."
+        line2 = "The outcome remains evenly poised."
+    elif p50 < 0.70:
+        line1 = "Carnac observes gathering momentum."
+        line2 = "The balance tilts toward the outcome."
+    elif p50 < 0.85:
+        line1 = "Carnac registers strengthening convergence."
+        line2 = "The outcome appears likely."
+    else:
+        line1 = "Carnac detects strong convergence."
+        line2 = "The outcome appears highly likely."
+
+    return f"**{line1}**\n\n{line2}"
         "flights": "Carnac sees… a departure board that *hesitates*.",
         "weather": "Carnac feels… moisture in the air and fate in the clouds.",
         "sports": "Carnac hears… the roar of the crowd and a few nervous innings.",
