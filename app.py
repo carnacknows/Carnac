@@ -589,8 +589,21 @@ else:
 
 st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
 st.markdown(f"**Lean:** {lean}")
-    lean = get_lean(res.p50)
-    st.subheader("Carnac’s Call")
+    
+        lean = get_lean(res.p50)
+    bulletin = is_bulletin(res.p50, res.confidence, density)
+
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    if bulletin:
+        st.subheader("Carnac Bulletin")
+        st.caption(f"Issued: {timestamp}")
+    else:
+        st.subheader("Carnac Reading")
+
+    st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
+    st.markdown(f"**Lean:** {lean}")
     st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
 
     c1, c2, c3, c4, c5 = st.columns(5)
