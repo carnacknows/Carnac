@@ -419,4 +419,18 @@ def monte_carlo_beta(mean_prob: float, strength: float, n: int = 25000, seed: Op
 # =========================
 
 def get_lean(p: float) -> str:
-   
+   def get_lean(p: float) -> str:
+    if p < 0.15:
+        return "Very Unlikely"
+    elif p < 0.30:
+        return "Unlikely"
+    elif p < 0.45:
+        return "Lean Unlikely"
+    elif p < 0.55:
+        return "Even"
+    elif p < 0.70:
+        return "Lean Likely"
+    elif p < 0.85:
+        return "Likely"
+    else:
+        return "Highly Likely"
