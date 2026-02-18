@@ -58,18 +58,10 @@ def carnac_reveal(p50: float) -> str:
 # ===============================
 
 q = st.text_input("Ask Carnac:", placeholder="Will it rain next week?")
+q = st.text_input("Ask Carnac:", placeholder="Will it rain next week?")
 
-if q:
-    base_prob = 0.40
+# ⬇️ NEW BLOCK STARTS HERE
+from datetime import datetime
 
-    p10, p50, p90, mean_val = monte_carlo_beta(base_prob, strength=40)
-
-    st.subheader("Carnac Reading")
-    st.markdown(carnac_reveal(p50))
-    st.markdown(f"**Lean:** {get_lean(p50)}")
-
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("P10", f"{p10:.0%}")
-    c2.metric("P50", f"{p50:.0%}")
-    c3.metric("P90", f"{p90:.0%}")
-    c4.metric("Mean", f"{mean_val:.0%}")
+def is_bulletin(p: float) -> bool:
+    ...
