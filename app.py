@@ -125,23 +125,72 @@ from datetime import datetime
 def is_bulletin(p: float) -> bool:
     ...
 if q:
-    st.write("✅ Query received:", q)
+    horizon_days = 14.0
 
-    base_prob = 0.40
+    # Defaults in case RSS fails
+    news_items, reddit_items = [], []
+    news_rec, reddit_rec = 0.0, 0.0
+    density = "Low"
+
+    if use_live_signals:
+        try:
+            query_encoded = requests.utils.quote(q)
+
+            news_rss = f"https://news.google.com/rss/search?q={query_encoded}&hl=en-US&gl=US&ceid=US:en"
+            reddit_rss = f"https://www.reddit.com/search.rss?q={query_encoded}&sort=new"
+
+            news_items = fetch_rss_items(news_rss, limit=8)
+            reddit_items = fetch_rss_items(reddit_rss, limit=8)
+
+            news_rec = recency_score(news_items, horizon_days=horizon_days)
+            reddit_rec = recency_score(reddit_items, horizon_days=horizon_days)
+
+            density = density_label(len(news_items), len(reddit_items))
+        except Exception:
+            pass
+
+    # Adjust baseline probability using signal activity
+    activity = (news_rec + reddit_rec) / 2.0
+    base_prob = 0.40 + (activity - 0.5) * 0.30
+    base_prob = max(0.15, min(0.85, base_prob))
+
     p10, p50, p90, mean_val = monte_carlo_beta(base_prob, strength=40)
 
-    bulletin = (p50 >= 0.70) or (p50 <= 0.20)
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
-
-    if bulletin:
-        st.subheader("Carnac Bulletin")
-        st.caption(f"Issued: {timestamp}")
-    else:
-        st.subheader("Carnac Reading")
-
+    st.subheader("Carnac Reading")
     st.markdown(carnac_reveal(p50))
     st.markdown(f"**Lean:** {get_lean(p50)}")
 
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("P10", f"{p10:.0%}")
+    c2.metric("P50", f"{p50:.0%}")
+    c3.metric("P90", f"{p90:.0%}")
+    c4.metric("Mean", f"{mean_val:.0%}")
+    c5.metric("Signal Density", density)
+
+    st.write("**Why (signals):**")
+    st.write(f"• News velocity: {len(news_items)} items • recency score {news_rec:.2f}")
+    st.write(f"• Reddit buzz: {len(reddit_items)} posts • recency score {reddit_rec:.2f}")
+
+    if show_sources and use_live_signals:
+        st.write("**Sources:**")
+
+        st.write("News (Google News RSS)")
+        if news_items:
+            for it in news_items:
+                title = it.get("title", "")
+                link = it.get("link", "")
+                st.write(f"• [{title}]({link})" if link else f"• {title}")
+        else:
+            st.write("• (No news items returned)")
+
+        st.write("Reddit (search RSS)")
+        if reddit_items:
+            for it in reddit_items:
+                title = it.get("title", "")
+                link = it.get("link", "")
+                st.write(f"• [{title}]({link})" if link else f"• {title}")
+        else:
+            st.write("• (No reddit items returned)")
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("P10", f"{p10:.0%}")
     c2.metric("P50", f"{p50:.0%}")
