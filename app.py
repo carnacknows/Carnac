@@ -20,15 +20,20 @@ def fetch_rss_items(url: str, limit: int = 8):
         feed = feedparser.parse(url)
         items = []
         for e in feed.entries[:limit]:
+            published = (
+                getattr(e, "published", "")
+                or getattr(e, "updated", "")
+                or getattr(e, "pubDate", "")
+                or getattr(e, "date", "")
+            )
             items.append({
                 "title": getattr(e, "title", ""),
                 "link": getattr(e, "link", ""),
-                "published": getattr(e, "published", "") or getattr(e, "updated", "")
+                "published": published
             })
         return items
     except Exception:
         return []
-
 def recency_score(items, horizon_days: float = 14.0) -> float:
     if not items:
         return 0.0
