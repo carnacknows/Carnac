@@ -557,7 +557,7 @@ else:
 st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
 st.markdown(f"**Lean:** {lean}")
     
-        lean = get_lean(res.p50)
+    lean = get_lean(res.p50)
     bulletin = is_bulletin(res.p50, res.confidence, density)
 
     from datetime import datetime
