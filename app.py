@@ -64,3 +64,26 @@ from datetime import datetime
 
 def is_bulletin(p: float) -> bool:
     ...
+if q:
+    st.write("✅ Query received:", q)
+
+    base_prob = 0.40
+    p10, p50, p90, mean_val = monte_carlo_beta(base_prob, strength=40)
+
+    bulletin = (p50 >= 0.70) or (p50 <= 0.20)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    if bulletin:
+        st.subheader("Carnac Bulletin")
+        st.caption(f"Issued: {timestamp}")
+    else:
+        st.subheader("Carnac Reading")
+
+    st.markdown(carnac_reveal(p50))
+    st.markdown(f"**Lean:** {get_lean(p50)}")
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("P10", f"{p10:.0%}")
+    c2.metric("P50", f"{p50:.0%}")
+    c3.metric("P90", f"{p90:.0%}")
+    c4.metric("Mean", f"{mean_val:.0%}")
