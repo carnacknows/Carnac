@@ -57,9 +57,6 @@ def density_label(n_news: int, n_reddit: int) -> str:
     if total >= 4:
         return "Medium"
     return "Low"
-    def density_label(...):
-    ...
-    return "Low"
 
 
 q = st.text_input("Ask Carnac:", placeholder="e.g., Will I need a raincoat in Chicago next week?")
