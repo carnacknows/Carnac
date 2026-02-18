@@ -552,7 +552,7 @@ if q:
             n=int(mc_runs),
             seed=(int(seed) if seed != 0 else None)
         )
-
+    lean = get_lean(res.p50)
     st.subheader("Carnac’s Call")
     st.markdown(carnac_reveal(parsed.domain_hint, res.p50, res.confidence, density))
 
