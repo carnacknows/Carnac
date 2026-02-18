@@ -66,8 +66,8 @@ q = st.text_input("Ask Carnac:", placeholder="e.g., Will I need a raincoat in Ch
 show_sources = st.checkbox("Show sources", value=True)
 use_live_signals = st.checkbox("Use live signals (RSS)", value=True)
 
-show_sources = st.checkbox("Show sources", value=True)
-use_live_signals = st.checkbox("Use live signals (RSS)", value=True)
+
+
 # ===============================
 # SIMPLE STABLE CORE (NO TRY BLOCK)
 # ===============================
