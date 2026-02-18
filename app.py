@@ -66,10 +66,8 @@ q = st.text_input(
     placeholder="e.g., Will I need a raincoat in Chicago next week?",
     key="carnac_query"
 )
-show_sources = st.checkbox("Show sources", value=True)
-use_live_signals = st.checkbox("Use live signals (RSS)", value=True)
-
-
+show_sources = st.checkbox("Show sources", value=True, key="show_sources")
+use_live_signals = st.checkbox("Use live signals (RSS)", value=True, key="use_live_signals")
 
 # ===============================
 # SIMPLE STABLE CORE (NO TRY BLOCK)
