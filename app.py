@@ -406,6 +406,7 @@ def signal_density_label(n_news: int, n_reddit: int, news_rec: float, reddit_rec
 
 def carnac_reveal(domain: str, p50: float, conf: str, density: str) -> str:
     # Elemental / signal metaphors chosen deterministically from probability tier
+
     if p50 < 0.15:
         line1 = "Carnac registers strong opposing currents."
         line2 = "The outcome appears very unlikely."
@@ -429,40 +430,6 @@ def carnac_reveal(domain: str, p50: float, conf: str, density: str) -> str:
         line2 = "The outcome appears highly likely."
 
     return f"**{line1}**\n\n{line2}"
-        "flights": "Carnac sees… a departure board that *hesitates*.",
-        "weather": "Carnac feels… moisture in the air and fate in the clouds.",
-        "sports": "Carnac hears… the roar of the crowd and a few nervous innings.",
-        "awards": "Carnac senses… champagne on ice and fierce competition backstage.",
-        "policy": "Carnac detects… murmurs in the corridor and drafts in motion.",
-        "general": "Carnac gazes… into the swirling public signal.",
-    }.get(domain, "Carnac gazes… into the swirling public signal.")
-    return f"{flavor} **Median call: {p50:.0%}** • Confidence: **{conf}** • Signal density: **{density}**"
-def get_lean(p: float) -> str:
-    if p < 0.15:
-        return "Very Unlikely"
-    elif p < 0.30:
-        return "Unlikely"
-    elif p < 0.45:
-        return "Lean Unlikely"
-    elif p < 0.55:
-        return "Even"
-    elif p < 0.70:
-        return "Lean Likely"
-    elif p < 0.85:
-        return "Likely"
-    else:
-        return "Highly Likely"
-def bullets_from_signals(news_items, reddit_items, news_rec, reddit_rec, wiki_views, wiki_trend, target_dt):
-    b = []
-    b.append(f"News velocity: {len(news_items)} items • recency score {news_rec:.2f}")
-    b.append(f"Reddit buzz: {len(reddit_items)} posts • recency score {reddit_rec:.2f}")
-    if wiki_views:
-        b.append(f"Wikipedia attention: 30-day trend score {wiki_trend:.2f}")
-    else:
-        b.append("Wikipedia attention: not available for the guessed article title")
-    d = days_until(target_dt)
-    b.append(f"Time horizon: ~{max(0.0, d):.1f} days until target")
-    return b
 
 # ----------------------------
 # Streamlit UI
