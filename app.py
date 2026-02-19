@@ -20,7 +20,7 @@ def fetch_rss_items(url: str, limit: int = 8):
         feed = feedparser.parse(url)
         items = []
         for e in feed.entries[:limit]:
-            published = (
+            published_text = (
                 getattr(e, "published", "")
                 or getattr(e, "updated", "")
                 or getattr(e, "pubDate", "")
@@ -29,7 +29,9 @@ def fetch_rss_items(url: str, limit: int = 8):
             items.append({
                 "title": getattr(e, "title", ""),
                 "link": getattr(e, "link", ""),
-                "published": published
+                "published": published_text,
+                "published_parsed": getattr(e, "published_parsed", None),
+                "updated_parsed": getattr(e, "updated_parsed", None),
             })
         return items
     except Exception:
