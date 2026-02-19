@@ -44,19 +44,31 @@ def recency_score(items, horizon_days: float = 14.0) -> float:
     half_life_days = max(1.0, min(14.0, horizon_days / 2.0))
 
     scores = []
+
     for it in items:
-        pub = it.get("published", "") or ""
-        try:
-            dt = dateparser.parse(pub, fuzzy=True, default=now)
-        except Exception:
-            dt = now
+        dt = None
+
+        # Prefer feedparser's parsed timestamps (most reliable)
+        tp = it.get("published_parsed") or it.get("updated_parsed")
+        if tp:
+            try:
+                dt = datetime(*tp[:6])
+            except Exception:
+                dt = None
+
+        # Fallback to text parsing
+        if dt is None:
+            pub = it.get("published", "") or ""
+            try:
+                dt = dateparser.parse(pub, fuzzy=True, default=now)
+            except Exception:
+                dt = now  # neutral fallback
 
         age_days = max(0.0, (now - dt).total_seconds() / 86400.0)
         w = math.exp(-math.log(2) * (age_days / half_life_days))
         scores.append(w)
 
     return min(1.0, sum(scores) / max(1, len(scores)))
-
 def density_label(n_news: int, n_reddit: int) -> str:
     total = n_news + n_reddit
     if total >= 12:
