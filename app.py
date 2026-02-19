@@ -210,8 +210,4 @@ if q:
                 st.write(f"• [{title}]({link})" if link else f"• {title}")
         else:
             st.write("• (No reddit items returned)")
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("P10", f"{p10:.0%}")
-    c2.metric("P50", f"{p50:.0%}")
-    c3.metric("P90", f"{p90:.0%}")
-    c4.metric("Mean", f"{mean_val:.0%}")
+    
